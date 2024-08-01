@@ -31,19 +31,19 @@ class CarStorage{
 		return Array.from(this.cars.values()).filter(car => car.available);
 	}
 
-	//update car availability
-	updateCarAvailability(id, available){
-		const car = this.cars.get(id);
+	// //update car availability
+	// updateCarAvailability(id, available){
+	// 	const car = this.cars.get(id);
 
-		if(car){
-			car.available = available;
-			this.cars.set(id, car);
-			return car;
-		} else{
-			return null; // car with that id not in marketplace
-		}
-	}
+	// 	if(car){
+	// 		car.available = available;
+	// 		this.cars.set(id, car);
+	// 		return car;
+	// 	} else{
+	// 		return null; // car with that id not in marketplace
+	// 	}
+	// }
 	
 }
 
-module.exports = CarStorage;
+export const carStorage = new CarStorage();

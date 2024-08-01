@@ -1,5 +1,7 @@
 import { Car } from '../models/car.js';
 import { carStorage } from '../storage/car.js';
+import { RollupStateHandler } from '../shared/rollup-state-handler.js';
+//import { getConnectedWallet } from './utils'
 
 export class CarHandler{
 	async addCar(data){//add new car to marketplace
@@ -10,7 +12,7 @@ export class CarHandler{
 		}
 		return await RollupStateHandler.advanceWrapper(() => {
 			const newCar = new Car(data);
-			CarStorage.addCar(newCar);
+			carStorage.addCar(newCar);
 
 			return {
 				success: true,
@@ -56,18 +58,22 @@ export class CarHandler{
 			details: allAvailableCars,
 		}));
 	} 
-	async updateAvailability(id, ownerId, available){// make car on maketplace available or unavaialable for buyers
-		const updatedCar = carStorage.updateCarAvailability(id, available);
-
-		if (updatedCar){
-			return await RollupStateHandler.advanceWrapper(() => ({
-				details: `Car ${id} availability  updated to ${available}`,
-			}));
-		} else{
-			return await RollupStateHandler.advanceWrapper(() => ({
-				details: `Car ${id} not found`,
-			}));
-		}
-	} 
+	// async updateAvailability(id, available){// make car on maketplace available or unavaialable for buyers
+	// 	const car = carStorage.getCar(id);
+	// 	if(!car){
+	// 		return await RollupStateHandler.handleReport({
+	// 			error:'car does not exist or not found'
+	// 		});
+	// 	}
+		
+	// 	const connectedWallet = await getConnectedWallet();
+	// 	if(car.owner !== connectedWallet){
+	// 		return await RollupStateHandler.handleReport({
+	// 			error:'you cant update cars that are not yours'
+	// 		});
+	// 	}
+	// 	car.updateAvailability(available);
+	// 	carStorage.updateCarAvailability(car.id, car);
+	// } 
 }
 
