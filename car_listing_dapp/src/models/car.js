@@ -2,7 +2,7 @@
 import cypto from 'node:crypto'
 
 export class Car{
-	id
+	id;
 	plate;
 	owner;
 	name;
