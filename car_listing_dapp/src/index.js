@@ -1,12 +1,14 @@
 // XXX even though ethers is not used in the code below, it's very likely
 // it will be used by any DApp, so we are already including it here
 import { hexToString } from 'viem';
-//import { RollupStateHandler }
+import { ROLLUP_SERVER } from './shared/config';
+import { RollupStateHandler } from './shared/rollup-state-handler';
+import { handler } from './handlers'
 
 
 const { ethers } = require("ethers");
 
-const rollup_server = process.env.ROLLUP_HTTP_SERVER_URL;
+const rollup_server = ROLLUP_SERVER;
 console.log("HTTP rollup_server url is " + rollup_server);
 
 async function handle_advance(data) {
