@@ -13,12 +13,38 @@ console.log("HTTP rollup_server url is " + rollup_server);
 
 async function handle_advance(data) {
   console.log("Received advance request data " + JSON.stringify(data));
-  return "accept";
+  console.payloadRaw = hexToString(data.payload);
+  const payload = JSON.parse(payloadRaw);
+  const requestedAction = payload.action;
+  const providedData = payload.data;
+
+  const action = handler[requestedAction];
+
+  if(!action){
+    return await RollupStateHandler.handleReport({
+      error: `Action ${requestedAction} not allowed.`,
+    });
+  }
+  const handlerResponse = await action(providedData);
+  return handlerResponse;
 }
 
 async function handle_inspect(data) {
   console.log("Received inspect request data " + JSON.stringify(data));
-  return "accept";
+  const urlParams = hexToString(data.payload);
+  const urlParamsSplited = urlParams.split('/');
+  const requestedAction = urlParamsSplited[0];
+  const providedData = urlParamsSplited.slice(1);
+  const action = handler[requestedAction];
+  
+  if(!action){
+    return await RollupStateHandler.handleReport({
+      error: `Action ${requestedAction} not allowed`,
+    });
+  }
+
+  const handlerResponse = await action(providedData);
+  return handlerResponse;
 }
 
 var handlers = {
